@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+    mongo:
+        image: mongo:4.4.6
+        environment:
+            - MONGODB_DATABASE=donation-app
+        volumes:
+            - ./container-volumes/mongo:/data/db
+        networks:
+            - donation-app
+        ports:
+            - '27017:27017'
+networks:
+    donation-app:
+        driver: bridge
