@@ -1,28 +1,31 @@
-const express = require ('express')
+const express = require("express");
+const app = express();
 
-     const app = express()
+// load the environment variables from the env file
+require("dotenv").config();
 
-     const port = process.env.PORT || 3000
+// to parse automatically
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-
-    require('./db/donation')
-    // to parse automatically 
-    app.use(express.json())
-
-    const donateRouter = require("./routers/donation")
-    app.use(donateRouter)
-
-    require('./db/Register')
-
-//     
-app.use(express.json())
-    const registerRouter = require("./routers/register")
-    app.use(registerRouter)
+// connect to the db
+require("./db/config");
 
 ///////////////////////////////////////////////////////
 
-const productRouter = require("./routers/search")
-    app.use(productRouter)
+// routers
+const donateRouter = require("./routers/donation");
+const registerRouter = require("./routers/register");
+const productRouter = require("./routers/search");
 
+app.use(donateRouter);
+app.use(registerRouter);
+app.use(productRouter);
 
-    app.listen( port , () => {console.log("All Done Successfully")})
+///////////////////////////////////////////////////////
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log("Server is up and running on port " + port);
+});
